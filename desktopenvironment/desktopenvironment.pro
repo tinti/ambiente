@@ -4,5 +4,7 @@ QT += network
 TARGET = ambiente
 INCLUDEPATH += ../common/
 
-HEADERS += ../common/protocol.h server.h window.h
-SOURCES += main.cpp server.cpp window.cpp
+include(windowsystem/windowsystem.pri)
+
+SOURCES += main.cpp
+HEADERS += ../common/protocol.h
