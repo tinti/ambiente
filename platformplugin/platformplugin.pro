@@ -4,6 +4,7 @@ include(externalplugin.pri)
 
 INCLUDEPATH += $$QT_SOURCE_TREE/include
 INCLUDEPATH += $$QT_SOURCE_TREE/include/QtCore
+INCLUDEPATH += ../common/
 
 TARGET = ambiente
 
@@ -14,7 +15,7 @@ SOURCES =   main.cpp \
 HEADERS =   qambienteintegration.h \
             qambientewindowsurface.h \
             windowsystemserver.h \
-            protocol.h
+            ../common/protocol.h
 
 target.path += $$[QT_INSTALL_PLUGINS]/platforms
 INSTALLS += target
