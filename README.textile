@@ -1,0 +1,6 @@
+h1. About
+
+Ambiente is a Window System that runs on top of X11.
+
+The source code is inspired by the proof concept Window System created by Qt developers:
+http://labs.qt.nokia.com/2010/02/10/a-lighthouse-with-windows/
