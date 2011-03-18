@@ -1,24 +1,31 @@
+// Self
 #include "windowsystem.h"
-#include "clientwindow.h"
 
+// Own
 #include "protocol.h"
 #include "window.h"
-#include <qtcpserver.h>
-#include <qtcpsocket.h>
-#include <qdebug.h>
+
+// Qt
+#include <QTcpSocket>
+#include <QTcpServer>
 #include <QGraphicsScene>
+#include <QDebug>
 
 WindowSystem::WindowSystem(QGraphicsScene *scene)
-    : QObject(), m_server(0), m_scene(scene)
+    : QObject()
 {
+    // setup root window
+    Window *root = new Window(this, 0, Window::ServerWindow);
+    root->setGeometry(QRectF(0, 0, 800, 600));
+    scene->addItem(root);
+    m_windows.insert(root->id(), root);
+    m_windows.insert(0, root); // 0 is an alias for the root
+
+    // start listening
     m_server = new QTcpServer(this);
-    connect(m_server, SIGNAL(newConnection()), this, SLOT(handleConnection()));
+    QObject::connect(m_server, SIGNAL(newConnection()), this, SLOT(handleConnection()));
     m_server->listen(QHostAddress::LocalHost, 2048);
     qDebug() << "SERVER: running";
-}
-
-WindowSystem::~WindowSystem()
-{
 }
 
 void WindowSystem::handleConnection()
@@ -33,6 +40,7 @@ void WindowSystem::handleConnection()
 
 void WindowSystem::handleRequest()
 {
+    // read request(s)
     QTcpSocket *connection = qobject_cast<QTcpSocket*>(sender());
     QDataStream stream(connection);
     while (!stream.atEnd()) {
@@ -73,7 +81,7 @@ void WindowSystem::handleRequest()
             qWarning() << "SERVER: unknown request type" << request.type;
             break;
         };
-    }
+    } // while (!stream.atEnd())
 }
 
 void WindowSystem::handleConnectionError()
@@ -98,9 +106,8 @@ void WindowSystem::removeConnection()
 quint32 WindowSystem::createWindow(quint32 parentId)
 {
     qDebug() << "SERVER: create window";
-    ClientWindow *parent = m_windows.value(parentId, 0);
-    ClientWindow *window = new ClientWindow(this, parent);
-    m_scene->addItem(window);
+    Window *parent = m_windows.value(parentId, 0);
+    Window *window = new Window(this, parent);
     m_windows.insert(window->id(), window);
     return window->id();
 }
@@ -114,43 +121,41 @@ void WindowSystem::destroyWindow(quint32 id)
 void WindowSystem::showWindow(quint32 id)
 {
     qDebug() << "SERVER: show window";
-    if (ClientWindow *window = m_windows.value(id))
+    if (Window *window = m_windows.value(id))
         window->show();
 }
 
 void WindowSystem::hideWindow(quint32 id)
 {
-    if (ClientWindow *window = m_windows.value(id))
+    if (Window *window = m_windows.value(id))
         window->hide();
 }
 
 void WindowSystem::raiseWindow(quint32 id)
 {
     qDebug() << "SERVER: hide window";
-    if (ClientWindow *window = m_windows.value(id))
+    if (Window *window = m_windows.value(id))
         window->setZValue(window->zValue() + 1);
 }
 
 void WindowSystem::lowerWindow(quint32 id)
 {
     qDebug() << "SERVER: lower window";
-    if (ClientWindow *window = m_windows.value(id))
+    if (Window *window = m_windows.value(id))
         window->setZValue(window->zValue() - 1);
 }
 
 void WindowSystem::updateWindow(quint32 id, const QRectF &rect)
 {
     qDebug() << "SERVER: update window";
-    if (ClientWindow *window = m_windows.value(id))
-    {
+    if (Window *window = m_windows.value(id))
         window->update(rect);
-    }
 }
 
 void WindowSystem::setWindowGeometry(quint32 id, const QRectF &rect)
 {
     qDebug() << "SERVER: setting geometry" << rect << id;
-    if (ClientWindow *window = m_windows.value(id))
+    if (Window *window = m_windows.value(id))
         window->setGeometry(rect);
 }
 

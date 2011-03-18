@@ -1,24 +1,23 @@
 #ifndef _WINDOWSYSTEM_H
 #define _WINDOWSYSTEM_H
 
-#include <qset.h>
-#include <qdatastream.h>
-#include <qgraphicsscene.h>
-#include <qgraphicsview.h>
+// Qt
+#include <QHash>
+#include <QDataStream>
+#include <QRectF>
 
-class Window;
 class QTcpServer;
 class QTcpSocket;
-class ClientWindow;
-
 class QGraphicsScene;
+
+class Window;
 
 class WindowSystem: public QObject
 {
     Q_OBJECT
+
 public:
     WindowSystem(QGraphicsScene *scene);
-    ~WindowSystem();
 
     // events
     void sendGeometryChangeEvent(quint32 id, const QRectF &rect);
@@ -28,7 +27,7 @@ public:
     void sendKeyPressEvent(quint32 id, quint32 key, ushort unicode, uint modifiers);
     void sendKeyReleaseEvent(quint32 id, quint32 key, ushort unicode, uint modifiers);
 
-protected Q_SLOTS:
+protected slots:
     void handleRequest();
     void handleConnection();
     void handleConnectionError();
@@ -45,16 +44,9 @@ protected Q_SLOTS:
     void setWindowGeometry(quint32 id, const QRectF &rect);
 
 private:
-    // connections
     QTcpServer *m_server;
     QHash<quint32, QTcpSocket *> m_connections;
-    // resources
-    QHash<quint32, ClientWindow*> m_windows;
-    // scenegraph
-    QGraphicsScene *m_scene;
-    //QGraphicsScene m_scene;
-    QGraphicsView m_view;
+    QHash<quint32, Window*> m_windows;
 };
 
 #endif
-

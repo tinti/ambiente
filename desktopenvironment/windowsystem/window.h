@@ -1,12 +1,12 @@
-#ifndef WINDOW_H
-#define WINDOW_H
+#ifndef _WINDOW_H
+#define _WINDOW_H
 
-#include <qgraphicsitem.h>
-#include <qsharedmemory.h>
+#include <QGraphicsItem>
+#include <QSharedMemory>
 
-class Server;
+class WindowSystem;
 
-class Window : public QGraphicsItem
+class Window: public QGraphicsItem
 {
 public:
     enum WindowType {
@@ -14,8 +14,7 @@ public:
         ClientWindow
     };
 
-    Window(Server *server, Window *parent = 0, WindowType type = ClientWindow);
-    ~Window();
+    Window(WindowSystem *server, Window *parent = 0, WindowType type = ClientWindow);
 
     quint32 id() const;
 
@@ -30,7 +29,7 @@ private:
     WindowType m_type;
     QSizeF m_size;
     QSharedMemory m_surface;
-    Server *m_server;
+    WindowSystem *m_server;
 };
 
-#endif//WINDOW_H
+#endif

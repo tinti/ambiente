@@ -1,22 +1,23 @@
+// Self
 #include "window.h"
-#include "server.h"
-#include <qpainter.h>
-#include <qevent.h>
-#include <qgraphicssceneevent.h>
-#include <qimage.h>
-#include <qdebug.h>
 
-Window::Window(Server *server, Window *parent, WindowType type)
+// Own
+#include "windowsystem.h"
+
+// Qt
+#include <QPainter>
+#include <QKeyEvent>
+#include <QGraphicsSceneEvent>
+#include <QImage>
+#include <QDebug>
+
+Window::Window(WindowSystem *server, Window *parent, WindowType type)
     : QGraphicsItem(parent), m_type(type), m_server(server)
 {
     //setFlag(QGraphicsItem::ItemIsMovable); // ### for testing
     setFlag(QGraphicsItem::ItemClipsToShape);
     setFlag(QGraphicsItem::ItemClipsChildrenToShape);
     setFlag(QGraphicsItem::ItemIsFocusable);
-}
-
-Window::~Window()
-{
 }
 
 quint32 Window::id() const

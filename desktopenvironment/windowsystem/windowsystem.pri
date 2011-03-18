@@ -1,7 +1,5 @@
-SOURCES += $$PWD/rootwindow.cpp \
-           $$PWD/windowsystem.cpp \
-           $$PWD/clientwindow.cpp
+SOURCES += $$PWD/windowsystem.cpp \
+           $$PWD/window.cpp
 
-HEADERS += $$PWD/rootwindow.h \
-           $$PWD/windowsystem.h \
-           $$PWD/clientwindow.h
+HEADERS += $$PWD/windowsystem.h \
+           $$PWD/window.h
