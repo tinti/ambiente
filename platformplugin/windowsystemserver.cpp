@@ -10,10 +10,13 @@
 #include <QApplication>
 #include <QDataStream>
 #include <QWindowSystemInterface>
+#include <QtGui/private/qapplication_p.h>
 
-WindowSystemServer::WindowSystemServer(AmbienteIntegration *integrator)
-    : QObject()
-    , m_integrator(integrator)
+static WindowSystemServer *self = NULL;
+
+WindowSystemServer::WindowSystemServer():
+    QObject(),
+    m_integrator(NULL)
 {
 }
 
@@ -32,6 +35,9 @@ bool WindowSystemServer::tryConnect()
 
 bool WindowSystemServer::sendRequest(const Request &request)
 {
+    if (!m_integrator)
+        m_integrator = static_cast<AmbienteIntegration *>(QApplicationPrivate::platformIntegration());
+
     QDataStream s(&m_socket);
     s << (*static_cast<const Message *>(&request));
     return m_socket.isValid();
@@ -52,6 +58,13 @@ bool WindowSystemServer::waitForResponse(Response &response)
     }
 
     return false;
+}
+
+WindowSystemServer *WindowSystemServer::instance()
+{
+    if (!self)
+        self = new WindowSystemServer;
+    return self;
 }
 
 void WindowSystemServer::eventDispatcher()

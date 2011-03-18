@@ -12,12 +12,15 @@ class WindowSystemServer: public QObject
 {
     Q_OBJECT
 
-public:
-    WindowSystemServer(AmbienteIntegration *integrator);
+private:
+    WindowSystemServer();
 
+public:
     bool tryConnect();
     bool sendRequest(const Request &request);
     bool waitForResponse(Response &response);
+
+    static WindowSystemServer *instance();
 
 private slots:
     void eventDispatcher();

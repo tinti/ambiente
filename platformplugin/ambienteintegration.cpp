@@ -12,7 +12,7 @@
 
 AmbienteIntegration::AmbienteIntegration()
 {
-    m_server = new WindowSystemServer(this);
+    m_server = WindowSystemServer::instance();
 
     if (!m_server->tryConnect())
         qFatal("Failed to connect to server");
