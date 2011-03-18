@@ -6,14 +6,14 @@
 
 #include "protocol.h"
 
-class QAmbienteIntegration;
+class AmbienteIntegration;
 
 class WindowSystemServer: public QObject
 {
     Q_OBJECT
 
 public:
-    WindowSystemServer(QAmbienteIntegration *integrator);
+    WindowSystemServer(AmbienteIntegration *integrator);
 
     bool tryConnect();
     bool sendRequest(const Request &request);
@@ -25,7 +25,7 @@ private slots:
 private:
     QTcpSocket m_socket;
     Message m_message;
-    QAmbienteIntegration *m_integrator;
+    AmbienteIntegration *m_integrator;
 };
 
 #endif

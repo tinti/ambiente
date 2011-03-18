@@ -2,8 +2,8 @@
 #include "windowsystemserver.h"
 
 // Own
-#include "qambienteintegration.h"
-#include "qambientewindowsurface.h"
+#include "ambienteintegration.h"
+#include "ambientewindowsurface.h"
 
 // Qt
 #include <QHostAddress>
@@ -11,7 +11,7 @@
 #include <QDataStream>
 #include <QWindowSystemInterface>
 
-WindowSystemServer::WindowSystemServer(QAmbienteIntegration *integrator)
+WindowSystemServer::WindowSystemServer(AmbienteIntegration *integrator)
     : QObject()
     , m_integrator(integrator)
 {
@@ -63,7 +63,7 @@ void WindowSystemServer::eventDispatcher()
 
         if (m_message.message == Event::EventMessage)
         {
-            QAmbienteWindowSurface *surface = m_integrator->surface(m_message.id);
+            AmbienteWindowSurface *surface = m_integrator->surface(m_message.id);
             QWidget *window = surface ? surface->window() : 0;
 
             //qDebug() << "SYSTEM: received event" << m_message.type << window;

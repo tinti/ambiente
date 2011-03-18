@@ -1,5 +1,5 @@
 #include <QtGui/QPlatformIntegrationPlugin>
-#include "qambienteintegration.h"
+#include "ambienteintegration.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -21,7 +21,7 @@ QPlatformIntegration *QAmbienteIntegrationPlugin::create(const QString& system, 
 {
     Q_UNUSED(paramList);
     if (system.toLower() == "ambiente")
-        return new QAmbienteIntegration;
+        return new AmbienteIntegration;
 
     return 0;
 }

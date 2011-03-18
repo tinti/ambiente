@@ -1,8 +1,8 @@
 // Self
-#include "qambientewindowsurface.h"
+#include "ambientewindowsurface.h"
 
 // Own
-#include "qambienteintegration.h"
+#include "ambienteintegration.h"
 #include "windowsystemserver.h"
 #include "protocol.h"
 
@@ -10,7 +10,7 @@
 #include <QDebug>
 #include <QtGui/private/qapplication_p.h>
 
-QAmbienteWindowSurface::QAmbienteWindowSurface(QWidget *window, QAmbienteIntegration *integrator)
+AmbienteWindowSurface::AmbienteWindowSurface(QWidget *window, AmbienteIntegration *integrator)
     : QWindowSurface(window)
     , m_integrator(integrator)
 {
@@ -25,16 +25,16 @@ QAmbienteWindowSurface::QAmbienteWindowSurface(QWidget *window, QAmbienteIntegra
     m_id = response.id;
 }
 
-QAmbienteWindowSurface::~QAmbienteWindowSurface()
+AmbienteWindowSurface::~AmbienteWindowSurface()
 {
 }
 
-QPaintDevice *QAmbienteWindowSurface::paintDevice()
+QPaintDevice *AmbienteWindowSurface::paintDevice()
 {
     return &m_image;
 }
 
-void QAmbienteWindowSurface::flush(QWidget *widget, const QRegion &region, const QPoint &offset)
+void AmbienteWindowSurface::flush(QWidget *widget, const QRegion &region, const QPoint &offset)
 {
     Q_UNUSED(widget);
     Q_UNUSED(region);
@@ -44,7 +44,7 @@ void QAmbienteWindowSurface::flush(QWidget *widget, const QRegion &region, const
     m_integrator->server()->sendRequest(request);
 }
 
-void QAmbienteWindowSurface::resize(const QSize &size)
+void AmbienteWindowSurface::resize(const QSize &size)
 {
     QWindowSurface::resize(size);
 
@@ -67,14 +67,14 @@ void QAmbienteWindowSurface::resize(const QSize &size)
     m_integrator->server()->sendRequest(request);
 }
 
-void QAmbienteWindowSurface::beginPaint(const QRegion &region)
+void AmbienteWindowSurface::beginPaint(const QRegion &region)
 {
     Q_UNUSED(region);
     if (m_shared.lock() && m_shared.data())
         m_image = QImage((uchar*)m_shared.data(), geometry().width(), geometry().height(), m_integrator->screens().first()->format());
 }
 
-void QAmbienteWindowSurface::endPaint(const QRegion &region)
+void AmbienteWindowSurface::endPaint(const QRegion &region)
 {
     Q_UNUSED(region);
     if (m_shared.unlock())

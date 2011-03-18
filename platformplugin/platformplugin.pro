@@ -9,11 +9,14 @@ INCLUDEPATH += ../common/
 TARGET = ambiente
 
 SOURCES =   main.cpp \
-            qambienteintegration.cpp \
-            qambientewindowsurface.cpp \
+            ambienteintegration.cpp \
+            ambientewindowsurface.cpp \
+            ambientescreen.cpp \
             windowsystemserver.cpp
-HEADERS =   qambienteintegration.h \
-            qambientewindowsurface.h \
+
+HEADERS =   ambienteintegration.h \
+            ambientewindowsurface.h \
+            ambientescreen.h \
             windowsystemserver.h \
             ../common/protocol.h
 
