@@ -18,5 +18,5 @@ int AmbienteScreen::depth() const
 
 QImage::Format AmbienteScreen::format() const
 {
-    return QImage::Format_ARGB32;
+    return QImage::Format_RGB32;
 }

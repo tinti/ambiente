@@ -57,7 +57,7 @@ void Window::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
         if (!m_surface.lock())
             qDebug() << m_surface.errorString();
         const uchar *data = static_cast<const uchar *>(m_surface.constData());
-        QImage image(data, width, height, QImage::Format_ARGB32); // ### server should hold the pixel format
+        QImage image(data, width, height, QImage::Format_RGB32); // ### server should hold the pixel format
         painter->drawImage(0, 0, image);
         m_surface.unlock();
         m_surface.detach();
