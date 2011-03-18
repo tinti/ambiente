@@ -12,11 +12,13 @@ SOURCES =   main.cpp \
             ambienteintegration.cpp \
             ambientewindowsurface.cpp \
             ambientescreen.cpp \
+            ambientewindow.cpp \
             windowsystemserver.cpp
 
 HEADERS =   ambienteintegration.h \
             ambientewindowsurface.h \
             ambientescreen.h \
+            ambientewindow.h \
             windowsystemserver.h \
             ../common/protocol.h
 

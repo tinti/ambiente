@@ -1,5 +1,6 @@
 // Self
 #include "ambienteintegration.h"
+#include "ambientewindow.h"
 
 // Own
 #include "ambientewindowsurface.h"
@@ -36,7 +37,8 @@ QPixmapData *AmbienteIntegration::createPixmapData(QPixmapData::PixelType type) 
 QPlatformWindow *AmbienteIntegration::createPlatformWindow(QWidget *widget, WId winId) const
 {
     Q_UNUSED(winId);
-    return new QPlatformWindow(widget);
+    AmbienteWindow *window = new AmbienteWindow(widget);
+    return window;
 }
 
 QWindowSurface *AmbienteIntegration::createWindowSurface(QWidget *widget, WId winId) const
