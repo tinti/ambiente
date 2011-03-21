@@ -18,6 +18,7 @@ public:
     virtual void raise();
     virtual void lower();
 
+    virtual WId winId() const { return (WId)m_id; }
     inline quint32 id() const { return m_id; }
 
     inline AmbienteWindowSurface *windowSurface() { return m_surface; }
