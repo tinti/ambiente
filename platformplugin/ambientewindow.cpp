@@ -21,8 +21,8 @@ void AmbienteWindow::setVisible(bool visible)
     }
     else
     {
-//        Request request(Request::HideWindowRequest, 0);
-//        WindowSystemServer::instance()->sendRequest(request);
+        Request request(Request::HideWindowRequest, m_id);
+        WindowSystemServer::instance()->sendRequest(request);
     }
 }
 
