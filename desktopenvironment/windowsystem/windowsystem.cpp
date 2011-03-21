@@ -108,6 +108,7 @@ quint32 WindowSystem::createWindow(quint32 parentId)
     qDebug() << "SERVER: create window";
     Window *parent = m_windows.value(parentId, 0);
     Window *window = new Window(this, parent);
+    window->setVisible(false);
     m_windows.insert(window->id(), window);
     return window->id();
 }
