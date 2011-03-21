@@ -13,6 +13,7 @@
 
 WindowSystem::WindowSystem(QGraphicsScene *scene)
     : QObject()
+    , m_scene(scene)
 {
     // setup root window
     Window *root = new Window(this, 0, Window::ServerWindow);
@@ -98,7 +99,9 @@ void WindowSystem::removeConnection()
     QList<quint32> ids = m_connections.keys(connection); // ### linear
     foreach(quint32 id, ids) {
         m_connections.remove(id);
-        delete m_windows.take(id);
+        Window *window = m_windows.take(id);
+        m_scene->removeItem(window);
+        delete window;
     }
     connection->deleteLater();
 }

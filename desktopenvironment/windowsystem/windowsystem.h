@@ -45,6 +45,7 @@ protected slots:
 
 private:
     QTcpServer *m_server;
+    QGraphicsScene *m_scene;
     QHash<quint32, QTcpSocket *> m_connections;
     QHash<quint32, Window*> m_windows;
 };
