@@ -26,6 +26,18 @@ void AmbienteWindow::setVisible(bool visible)
     }
 }
 
+void AmbienteWindow::raise()
+{
+    Request request(Request::RaiseWindowRequest, m_id);
+    WindowSystemServer::instance()->sendRequest(request);
+}
+
+void AmbienteWindow::lower()
+{
+    Request request(Request::LowerWindowRequest, m_id);
+    WindowSystemServer::instance()->sendRequest(request);
+}
+
 void AmbienteWindow::setGeometry(const QRect &rect)
 {
     QPlatformWindow::setGeometry(rect);

@@ -15,6 +15,9 @@ public:
     virtual void setVisible(bool visible);
     virtual void setGeometry(const QRect &rect);
 
+    virtual void raise();
+    virtual void lower();
+
     inline quint32 id() const { return m_id; }
 
     inline AmbienteWindowSurface *windowSurface() { return m_surface; }
