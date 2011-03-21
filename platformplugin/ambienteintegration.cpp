@@ -52,7 +52,21 @@ QWindowSurface *AmbienteIntegration::createWindowSurface(QWidget *widget, WId wi
 
 quint32 AmbienteIntegration::parentWindowId(QWidget *widget) const
 {
-    return m_ids.value(widget->parentWidget());
+    QWidget *parent = NULL;
+    QWidget *test = widget;
+    while (test)
+    {
+        Qt::WindowFlags type = test->windowFlags() & Qt::WindowType_Mask;
+        if (type == Qt::Window)
+        {
+            parent = test;
+            break;
+        }
+        else
+            test = test->parentWidget();
+    }
+
+    return m_ids.value(parent);
 }
 
 AmbienteWindowSurface *AmbienteIntegration::surface(quint32 id) const
