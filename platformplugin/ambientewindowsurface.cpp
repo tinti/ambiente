@@ -10,17 +10,14 @@
 #include <QDebug>
 #include <QtGui/private/qapplication_p.h>
 
-AmbienteWindowSurface::AmbienteWindowSurface(QWidget *window, AmbienteIntegration *integrator)
+AmbienteWindowSurface::AmbienteWindowSurface(QWidget *window)
     : QWindowSurface(window)
-    , m_integrator(integrator)
 {
-    WindowSystemServer *server = integrator->server();
-
-    Request request(Request::CreateWindowRequest, integrator->parentWindowId(window));
-    server->sendRequest(request);
+    //Request request(Request::CreateWindowRequest, integrator->parentWindowId(window));
+    //WindowSystemServer::instance()->sendRequest(request);
 
     Response response;
-    server->waitForResponse(response);
+    WindowSystemServer::instance()->waitForResponse(response);
 
     m_id = response.id;
 }
@@ -41,7 +38,7 @@ void AmbienteWindowSurface::flush(QWidget *widget, const QRegion &region, const 
     Q_UNUSED(offset);
 
     Request request(Request::UpdateWindowRequest, m_id);
-    m_integrator->server()->sendRequest(request);
+    WindowSystemServer::instance()->sendRequest(request);
 }
 
 void AmbienteWindowSurface::resize(const QSize &size)
@@ -64,14 +61,14 @@ void AmbienteWindowSurface::resize(const QSize &size)
     }
 
     Request request(Request::SetWindowGeometryRequest, m_id, 0, QRectF(QPoint(0, 0), size));
-    m_integrator->server()->sendRequest(request);
+    WindowSystemServer::instance()->sendRequest(request);
 }
 
 void AmbienteWindowSurface::beginPaint(const QRegion &region)
 {
     Q_UNUSED(region);
     if (m_shared.lock() && m_shared.data())
-        m_image = QImage((uchar*)m_shared.data(), geometry().width(), geometry().height(), m_integrator->screens().first()->format());
+        m_image = QImage((uchar*)m_shared.data(), geometry().width(), geometry().height(), QImage::Format_RGB32);
 }
 
 void AmbienteWindowSurface::endPaint(const QRegion &region)

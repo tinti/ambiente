@@ -6,12 +6,10 @@
 #include <QSharedMemory>
 #include <QtGui/private/qwindowsurface_p.h>
 
-class AmbienteIntegration;
-
 class AmbienteWindowSurface: public QWindowSurface
 {
 public:
-    AmbienteWindowSurface(QWidget *window, AmbienteIntegration *integrator);
+    AmbienteWindowSurface(QWidget *window);
     ~AmbienteWindowSurface();
 
     QPaintDevice *paintDevice();
@@ -25,7 +23,6 @@ public:
 
 private:
     quint32 m_id;
-    AmbienteIntegration *m_integrator;
     QSharedMemory m_shared;
     QImage m_image;
 };

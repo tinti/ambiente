@@ -44,7 +44,7 @@ QPlatformWindow *AmbienteIntegration::createPlatformWindow(QWidget *widget, WId 
 QWindowSurface *AmbienteIntegration::createWindowSurface(QWidget *widget, WId winId) const
 {
     Q_UNUSED(winId);
-    AmbienteWindowSurface *surface = new AmbienteWindowSurface(widget, (AmbienteIntegration *)this);
+    AmbienteWindowSurface *surface = new AmbienteWindowSurface(widget);
     m_surfaces.insert(surface->id(), surface);
     m_ids.insert(widget, surface->id());
     return surface;
