@@ -3,6 +3,7 @@
 
 // Own
 #include "ambienteintegration.h"
+#include "ambientewindow.h"
 #include "ambientewindowsurface.h"
 
 // Qt
@@ -76,8 +77,8 @@ void WindowSystemServer::eventDispatcher()
 
         if (m_message.message == Event::EventMessage)
         {
-            AmbienteWindowSurface *surface = m_integrator->surface(m_message.id);
-            QWidget *window = surface ? surface->window() : 0;
+            AmbienteWindow *platformWindow = m_integrator->platformWindow(m_message.id);
+            QWidget *window = platformWindow ? platformWindow->windowSurface()->window() : 0;
 
             //qDebug() << "SYSTEM: received event" << m_message.type << window;
             switch (m_message.type) {

@@ -5,13 +5,24 @@
 
 class QWidget;
 
+class AmbienteWindowSurface;
+
 class AmbienteWindow: public QPlatformWindow
 {
 public:
-    AmbienteWindow(QWidget *window);
+    AmbienteWindow(QWidget *window, quint32 id);
 
     virtual void setVisible(bool visible);
     virtual void setGeometry(const QRect &rect);
+
+    inline quint32 id() const { return m_id; }
+
+    inline AmbienteWindowSurface *windowSurface() { return m_surface; }
+    inline void setWindowSurface(AmbienteWindowSurface *surface) { m_surface = surface; }
+
+private:
+    quint32 m_id;
+    AmbienteWindowSurface *m_surface;
 };
 
 #endif

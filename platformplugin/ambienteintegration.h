@@ -6,6 +6,7 @@
 #include <QPlatformScreen>
 
 class QPlatformScreen;
+class AmbienteWindow;
 class AmbienteWindowSurface;
 class WindowSystemServer;
 
@@ -25,11 +26,11 @@ public:
     WindowSystemServer *server() const { return m_server; }
 
     quint32 parentWindowId(QWidget *widget) const;
-    AmbienteWindowSurface *surface(quint32 id) const;
+    AmbienteWindow *platformWindow(quint32 id) const;
 
 private:
     WindowSystemServer *m_server;
-    mutable QHash<quint32, AmbienteWindowSurface *> m_surfaces;
+    mutable QHash<quint32, AmbienteWindow *> m_windows;
     mutable QHash<QWidget *, quint32> m_ids;
     QList<QPlatformScreen *> m_screens;
 };

@@ -37,7 +37,15 @@ QPixmapData *AmbienteIntegration::createPixmapData(QPixmapData::PixelType type) 
 QPlatformWindow *AmbienteIntegration::createPlatformWindow(QWidget *widget, WId winId) const
 {
     Q_UNUSED(winId);
-    AmbienteWindow *window = new AmbienteWindow(widget);
+    Request request(Request::CreateWindowRequest, parentWindowId(widget));
+    WindowSystemServer::instance()->sendRequest(request);
+
+    Response response;
+    WindowSystemServer::instance()->waitForResponse(response);
+
+    AmbienteWindow *window = new AmbienteWindow(widget, response.id);
+    m_windows.insert(window->id(), window);
+    m_ids.insert(widget, window->id());
     return window;
 }
 
@@ -45,8 +53,6 @@ QWindowSurface *AmbienteIntegration::createWindowSurface(QWidget *widget, WId wi
 {
     Q_UNUSED(winId);
     AmbienteWindowSurface *surface = new AmbienteWindowSurface(widget);
-    m_surfaces.insert(surface->id(), surface);
-    m_ids.insert(widget, surface->id());
     return surface;
 }
 
@@ -69,7 +75,7 @@ quint32 AmbienteIntegration::parentWindowId(QWidget *widget) const
     return m_ids.value(parent);
 }
 
-AmbienteWindowSurface *AmbienteIntegration::surface(quint32 id) const
+AmbienteWindow *AmbienteIntegration::platformWindow(quint32 id) const
 {
-    return m_surfaces.value(id);
+    return m_windows.value(id);
 }

@@ -3,6 +3,7 @@
 
 // Own
 #include "ambienteintegration.h"
+#include "ambientewindow.h"
 #include "windowsystemserver.h"
 #include "protocol.h"
 
@@ -13,13 +14,8 @@
 AmbienteWindowSurface::AmbienteWindowSurface(QWidget *window)
     : QWindowSurface(window)
 {
-    //Request request(Request::CreateWindowRequest, integrator->parentWindowId(window));
-    //WindowSystemServer::instance()->sendRequest(request);
-
-    Response response;
-    WindowSystemServer::instance()->waitForResponse(response);
-
-    m_id = response.id;
+    m_platformWindow = static_cast<AmbienteWindow *>(window->platformWindow());
+    m_platformWindow->setWindowSurface(this);
 }
 
 AmbienteWindowSurface::~AmbienteWindowSurface()
@@ -37,7 +33,7 @@ void AmbienteWindowSurface::flush(QWidget *widget, const QRegion &region, const 
     Q_UNUSED(region);
     Q_UNUSED(offset);
 
-    Request request(Request::UpdateWindowRequest, m_id);
+    Request request(Request::UpdateWindowRequest, m_platformWindow->id());
     WindowSystemServer::instance()->sendRequest(request);
 }
 
@@ -54,13 +50,13 @@ void AmbienteWindowSurface::resize(const QSize &size)
     {
         if (!m_shared.key().isEmpty())
             m_shared.setKey(QString());
-        m_shared.setKey(QString::number(m_id));
+        m_shared.setKey(QString::number(m_platformWindow->id()));
         if (!m_shared.create(byteCount) && !m_shared.attach())
         {
         }
     }
 
-    Request request(Request::SetWindowGeometryRequest, m_id, 0, QRectF(QPoint(0, 0), size));
+    Request request(Request::SetWindowGeometryRequest, m_platformWindow->id(), 0, QRectF(QPoint(0, 0), size));
     WindowSystemServer::instance()->sendRequest(request);
 }
 

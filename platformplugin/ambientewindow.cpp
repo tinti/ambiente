@@ -4,8 +4,9 @@
 // Own
 #include "windowsystemserver.h"
 
-AmbienteWindow::AmbienteWindow(QWidget *window):
-    QPlatformWindow(window)
+AmbienteWindow::AmbienteWindow(QWidget *window, quint32 id):
+    QPlatformWindow(window),
+    m_id(id)
 {
 }
 

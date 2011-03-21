@@ -6,6 +6,8 @@
 #include <QSharedMemory>
 #include <QtGui/private/qwindowsurface_p.h>
 
+class AmbienteWindow;
+
 class AmbienteWindowSurface: public QWindowSurface
 {
 public:
@@ -19,10 +21,8 @@ public:
     void beginPaint(const QRegion &region);
     void endPaint(const QRegion &region);
 
-    inline quint32 id() const { return m_id; }
-
 private:
-    quint32 m_id;
+    AmbienteWindow *m_platformWindow;
     QSharedMemory m_shared;
     QImage m_image;
 };
