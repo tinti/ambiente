@@ -15,19 +15,19 @@ void AmbienteWindow::setVisible(bool visible)
 
     if (visible)
     {
-        Request request(Request::ShowWindowRequest, 0);
-        WindowSystemServer::instance()->sendRequest(request);
+//        Request request(Request::ShowWindowRequest, 0);
+//        WindowSystemServer::instance()->sendRequest(request);
     }
     else
     {
-        Request request(Request::HideWindowRequest, 0);
-        WindowSystemServer::instance()->sendRequest(request);
+//        Request request(Request::HideWindowRequest, 0);
+//        WindowSystemServer::instance()->sendRequest(request);
     }
 }
 
 void AmbienteWindow::setGeometry(const QRect &rect)
 {
     QPlatformWindow::setGeometry(rect);
-    Request request(Request::SetWindowGeometryRequest, 0/*id*/, 0, rect);
-    WindowSystemServer::instance()->sendRequest(request);
+//    Request request(Request::SetWindowGeometryRequest, 0/*id*/, 0, rect);
+//    WindowSystemServer::instance()->sendRequest(request);
 }
